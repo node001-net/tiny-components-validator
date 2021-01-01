@@ -1,0 +1,42 @@
+<field-error>
+    <div class="field__error" if={ state.errors.length > 0 }>
+        <ul>
+            <li each={ error in state.errors }>{ error }</li>
+        </ul>
+    </div>
+    <script>
+
+        /**
+         *  Shows errors of Validation
+         *
+         *  <field-error key="name" errors={ errors }></field-error>
+         *
+         */
+
+        export default {
+
+            state: {
+                errors: [
+
+                ]
+            },
+
+            /**
+             *  check if errors from props has an error, if not reset errors in state
+             *
+             *  @param  {object} props
+             *  @param  {object} state
+             *
+             */
+            onBeforeUpdate(props, state) {
+                if (props.errors && props.errors.length > 0) {
+                    state.errors = props.errors
+                } else {
+                    state.errors = []
+                }
+            }
+
+        }
+
+    </script>
+</field-error>
