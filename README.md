@@ -15,7 +15,7 @@ npm install tiny-validator --save
 
 ## How to use
 
-```
+```javascript
 <demo>
     <form onsubmit={ (event) => { state.validator.handle(event) }} novalidate>
         <div class="field">
@@ -36,13 +36,12 @@ npm install tiny-validator --save
     </form>
 
     <script>
-
         import Validator from './validator.js'
 
         export default {
             onBeforeMount() {
                 this.state.validator = new Validator({
-                    name: {
+                    email: {
                         presence: true
                         email: true
                     },
