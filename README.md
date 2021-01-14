@@ -15,7 +15,6 @@ npm install tiny-validator --save
 
 ## How to use
 
-
 ```javascript
 <form onsubmit={ (event) => { state.validator.handle(event) }} novalidate>
     <div class="field">
