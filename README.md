@@ -7,7 +7,6 @@ or after Submit entire Form.
 
 For Validation this Component uses [Validate.js](https://validatejs.org/)
 
-
 ## Install
 
 ```bash
