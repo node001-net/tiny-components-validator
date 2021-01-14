@@ -16,43 +16,39 @@ npm install tiny-validator --save
 ## How to use
 
 ```javascript
-<demo>
-    <form onsubmit={ (event) => { state.validator.handle(event) }} novalidate>
-        <div class="field">
-            <label>
-                email
-                <input type="email" name="email" onkeyup={ (event) => { state.validator.handle(event, 'email') }} />
-            </label>
-            <field-error errors={ state.validator.errors('email') } ></field-error>
-        </div>
-        <div class="field">
-            <label>
-                password
-                <input type="password" name="email" onkeyup={ (event) => { state.validator.handle(event, 'password') }} />
-            </label>
-            <field-error errors={ state.validator.errors('password') } ></field-error>
-        </div>
-        <button type="submit">Send</button>
-    </form>
+<form onsubmit={ (event) => { state.validator.handle(event) }} novalidate>
+    <div class="field">
+        <label>
+            email
+            <input type="email" name="email" onkeyup={ (event) => { state.validator.handle(event, 'email') }} />
+        </label>
+        <field-error errors={ state.validator.errors('email') } ></field-error>
+    </div>
+    <div class="field">
+        <label>
+            password
+            <input type="password" name="email" onkeyup={ (event) => { state.validator.handle(event, 'password') }} />
+        </label>
+        <field-error errors={ state.validator.errors('password') } ></field-error>
+    </div>
+    <button type="submit">Send</button>
+</form>
 
-    <script>
-        import Validator from './validator.js'
+<script>
+    import Validator from './validator.js'
 
-        export default {
-            onBeforeMount() {
-                this.state.validator = new Validator({
-                    email: {
-                        presence: true
-                        email: true
-                    },
-                    password: {
-                        presence: true
-                    }
-                }, this)
-            }
+    export default {
+        onBeforeMount() {
+            this.state.validator = new Validator({
+                email: {
+                    presence: true
+                    email: true
+                },
+                password: {
+                    presence: true
+                }
+            }, this)
         }
-    </script>
-</demo>
+    }
+</script>
 ```
-
-![Demo](https://github.com/tentakelfabrik/tiny-validator/blob/master/demo.gif)

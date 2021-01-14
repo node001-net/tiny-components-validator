@@ -1,7 +1,7 @@
 import * as riot from 'riot'
 import Demo from './demo.riot'
 
-import FieldError from './src/field-error.riot'
+import FieldError from './../field-error.riot'
 
 riot.register('field-error', FieldError)
 riot.mount('field-error')

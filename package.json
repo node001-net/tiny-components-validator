@@ -21,6 +21,8 @@
         "@riotjs/webpack-loader": "^5.0.0",
         "cross-env": "^7.0.3",
         "laravel-mix": "^6.0.5",
-        "postcss": "^8.2.1"
+        "postcss": "^8.2.1",
+        "sass": "^1.32.0",
+        "sass-loader": "^8.0.2"
     }
 }
