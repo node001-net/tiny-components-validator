@@ -7,7 +7,23 @@
     <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <demo></demo>
+    <form class="form" novalidate>
+        <div class="field">
+            <label>
+                email
+                <input type="email" name="email" />
+            </label>
+            <field-error name="email"></field-error>
+        </div>
+        <div class="field">
+            <label>
+                password
+                <input type="password" name="password" />
+            </label>
+            <field-error name="password"></field-error>
+        </div>
+        <button type="submit">Send</button>
+    </form>
     <script type="text/javascript" src="demo.js"></script>
 </body>
 </html>

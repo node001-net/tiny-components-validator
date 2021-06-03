@@ -1,7 +1,9 @@
 <field-error>
     <div class="field__error" if={ state.errors.length > 0 }>
         <ul>
-            <li each={ error in state.errors }>{ error }</li>
+            <li each={ error in state.errors }>
+                { error }
+            </li>
         </ul>
     </div>
     <script>
@@ -9,7 +11,7 @@
         /**
          *  Shows errors of Validation
          *
-         *  <field-error key="name" errors={ errors }></field-error>
+         *  <field-error name="name" errors={ errors }></field-error>
          *
          */
 
@@ -18,24 +20,47 @@
             state: {
                 errors: [
 
-                ]
+                ],
             },
 
-            /**
-             *  check if errors from props has an error, if not reset errors in state
-             *
-             *  @param  {object} props
-             *  @param  {object} state
-             *
-             */
-            onBeforeUpdate(props, state) {
-                if (props.errors && props.errors.length > 0) {
-                    state.errors = props.errors
-                } else {
-                    state.errors = []
-                }
-            }
+            onMounted(props, state) {
 
+                const parent = this.root.closest('.field')
+                const element = document.querySelector('[name="' + props.name + '"]')
+                const form = element.closest('form')
+
+                // element and form set
+                if (element && form) {
+                    element.addEventListener('keyup', function(event) {
+
+                        const fieldUpdateEvent = new CustomEvent('field-update', {
+                            'detail': {
+                                'name': props.name,
+                                'value': this.value
+                            }
+                        })
+
+                        form.dispatchEvent(fieldUpdateEvent)
+                    })
+                }
+
+                // add custom event to listen to form-validation
+                this.root.addEventListener('form-validation', (event) => {
+
+                    // if detail is set with element name, get errors
+                    if (event.detail) {
+                        this.state.errors = event.detail
+                        parent.classList.add('field--error')
+                        parent.classList.remove('field--valid')
+                    } else {
+                        this.state.errors = []
+                        parent.classList.remove('field--error')
+                        parent.classList.add('field--valid')
+                    }
+
+                    this.update()
+                })
+            }
         }
 
     </script>

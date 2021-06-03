@@ -9,9 +9,6 @@
     "author": "Björn Hase",
     "license": "MIT",
     "dependencies": {
-        "riot": "^5.1.2"
-    },
-    "dependencies": {
         "form-serialize": "^0.7.2",
         "riot": "^5.1.2",
         "validate.js": "^0.13.1"
