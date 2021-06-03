@@ -88,6 +88,12 @@ class FormValidator
      *  @return {[type]}       [description]
      */
     onFieldUpdate(event) {
+
+        // if value is a empty string make him undefined
+        if (!event.detail.value) {
+            event.detail.value = undefined
+        }
+
         let errors = validate.single(event.detail.value, this.constraits[event.detail.name])
         let element = this.findElementByName(event.detail.name)
 
