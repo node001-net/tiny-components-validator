@@ -2,6 +2,8 @@ import validate from 'validate.js'
 import serialize from 'form-serialize'
 
 /**
+ *  Form Validator with RiotJS Components
+ *
  *
  *
  *
@@ -15,8 +17,6 @@ class FormValidator
      */
     constructor(formSelector, constraits)
     {
-        this.errors = []
-
         // getting selector to find form-element
         this.formSelector = formSelector
 
@@ -40,29 +40,11 @@ class FormValidator
 
     /**
      *
-     *  @param  {[type]} name [description]
-     *  @return {[type]}      [description]
-     */
-    findElementByName(name) {
-
-        let result
-
-        this.elements.forEach((element) => {
-            if (element.attributes.name.nodeValue == name) {
-                result = element
-                return false
-            }
-        })
-
-        return result
-    }
-
-    /**
-     *
      *  @param  {[type]} event [description]
      *  @return {[type]}       [description]
      */
-    onSubmit(event) {
+    onSubmit(event)
+    {
         let errors = validate(serialize(event.target, {
             hash: true
         }), this.constraits)
@@ -70,9 +52,11 @@ class FormValidator
         if (errors) {
             event.preventDefault()
 
+            // send each element a event
             this.elements.forEach((element) => {
                 let elementErrors = false
 
+                // check for errors by name
                 if (errors[element.attributes.name.nodeValue]) {
                     elementErrors = errors[element.attributes.name.nodeValue]
                 }
@@ -84,27 +68,35 @@ class FormValidator
 
     /**
      *
-     *  @param  {[type]} event [description]
-     *  @return {[type]}       [description]
+     *
+     *  @param  {Event} event
+     *
      */
-    onFieldUpdate(event) {
-
+    onFieldUpdate(event)
+    {
         // if value is a empty string make him undefined
-        if (!event.detail.value) {
+        if (event.detail.value == '') {
             event.detail.value = undefined
         }
 
-        let errors = validate.single(event.detail.value, this.constraits[event.detail.name])
-        let element = this.findElementByName(event.detail.name)
+        let errors = validate.single(event.detail.value, this.constraits[event.detail.name]),
+            element
 
-        this.dispatchCustomEvent(errors, element)
+        // search for element by name and dispatch event
+        Array.from(this.elements).every((e) => {
+            if (e.attributes.name.nodeValue == event.detail.name) {
+                this.dispatchCustomEvent(errors, e)
+                return false
+            }
+        })
     }
 
     /**
+     *  dispatch event to single element
      *
-     *  @param  {[type]} errors  [description]
-     *  @param  {[type]} element [description]
-     *  @return {[type]}         [description]
+     *  @param  {Array} errors
+     *  @param  {Element} element
+     *
      */
     dispatchCustomEvent(errors, element)
     {
