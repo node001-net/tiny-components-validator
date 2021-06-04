@@ -74,19 +74,17 @@ class FormValidator
      */
     onFieldUpdate(event)
     {
-        // if value is a empty string make him undefined
+        // workaround, make sure that value for single is undefined if it is empty
         if (event.detail.value == '') {
             event.detail.value = undefined
         }
 
-        let errors = validate.single(event.detail.value, this.constraits[event.detail.name]),
-            element
+        let errors = validate.single(event.detail.value, this.constraits[event.detail.name])
 
         // search for element by name and dispatch event
-        Array.from(this.elements).every((e) => {
-            if (e.attributes.name.nodeValue == event.detail.name) {
-                this.dispatchCustomEvent(errors, e)
-                return false
+        this.elements.forEach((element) => {
+            if (element.attributes.name.nodeValue == event.detail.name) {
+                this.dispatchCustomEvent(errors, element)
             }
         })
     }
