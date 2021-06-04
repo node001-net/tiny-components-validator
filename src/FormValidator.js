@@ -47,7 +47,9 @@ class FormValidator
     {
         let errors = validate(serialize(event.target, {
             hash: true
-        }), this.constraits)
+        }), this.constraits, {
+            fullMessages: false
+        })
 
         if (errors) {
             event.preventDefault()
