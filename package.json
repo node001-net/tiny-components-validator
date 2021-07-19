@@ -1,6 +1,6 @@
 {
     "name": "@tentakelfabrik/tiny-validator",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Form Validator with validator.js for riotjs",
     "repository": {
         "type": "git",
