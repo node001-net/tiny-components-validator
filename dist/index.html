@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tiny Components | Validator</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link href="demo.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="bar">
+            <div class="bar__start">
+                <h1 class="m-top-4 m-bottom-4 h4">
+                    @tiny-components/validator
+                </h1>
+            </div>
+            <div class="bar__main justify-end">
+                <a class="button button--small m-left-sm-3 m-bottom-0" href="https://gitea.node001.net/tiny-components/validator" rel="noopener" target="_blank">
+                    Gitea
+                    <svg class="m-left-3 icon fill-text" aria-hidden="true">
+                        <use xlink:href="symbol-defs.svg#icon-gitea"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            <div class="col-12">
+                <form class="form" novalidate method="post">
+                    <div class="field-group">
+                        <label class="field-label">
+                            email
+                            <input type="email" class="field-text" name="email" />
+                        </label>
+                        <field-error name="email"></field-error>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">
+                            password
+                            <input type="password" class="field-text" name="password" />
+                        </label>
+                        <field-error name="password"></field-error>
+                    </div>
+                    <button class="button" type="submit">
+                        Send
+                    </button>
+                </form>
+
+                <div id="result" class="panel color-text-contrast background-color-success hidden">
+                    <div class="panel__body">
+                        <div class="content m-bottom-last-child-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="demo.js"></script>
+</body>
+
+</html>

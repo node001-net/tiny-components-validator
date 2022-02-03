@@ -26,8 +26,8 @@ mix.webpackConfig({
    }
 })
 
-mix.js('src/demo/demo.js', 'demo')
-    .sass('src/demo/demo.scss', 'demo')
+mix.js('src/demo.js', 'dist')
+    .sass('src/demo.scss', 'dist')
     .options({
         terser: {
             extractComments: false,
