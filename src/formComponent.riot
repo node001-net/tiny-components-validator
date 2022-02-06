@@ -1,0 +1,66 @@
+<form-component>
+    <div>
+        <form class="form" novalidate method="post">
+            <div class="field-group">
+                <label class="field-label">
+                    email
+                    <input type="email" class="field-text" name="email" />
+                </label>
+                <field-error name="email"></field-error>
+            </div>
+            <div class="field-group">
+                <label class="field-label">
+                    password
+                    <input type="password" class="field-text" name="password" />
+                </label>
+                <field-error name="password"></field-error>
+            </div>
+            <button class="button" type="submit">
+                Send
+            </button>
+        </form>
+
+        <div if={ state.result } class="panel color-text-contrast background-color-success">
+            <div class="panel__body">
+                <div class="content m-bottom-last-child-0">
+                    { state.result }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        import * as riot from 'riot'
+
+        import FormValidator from './formValidator.js'
+
+        export default {
+
+            state:
+            {
+                result: undefined
+            },
+
+            onMounted()
+            {
+                // creating formValidation
+                const formValidation = new FormValidator(this.$('.form'), {
+                    'email': {
+                        'presence': true,
+                        'email': true
+                    },
+                    'password': {
+                        'presence': true
+                    }
+                }, (event, data) => {
+                    event.preventDefault()
+                    
+                    this.state.result = JSON.stringify(data)
+                    this.update()
+                })
+            }
+        }
+
+    </script>
+</form-component>

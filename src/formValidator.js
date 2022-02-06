@@ -17,11 +17,8 @@ class FormValidator
      *  @param {[type]} formSelector [description]
      *  @param {[type]} constraits   [description]
      */
-    constructor(formSelector, constraits, onSuccess)
+    constructor(formElement, constraits, onSuccess)
     {
-        // getting selector to find form-element
-        this.formSelector = formSelector
-
         // constraits for validate.js
         this.constraits = constraits
 
@@ -34,7 +31,7 @@ class FormValidator
         }
 
         // get form and elements
-        this.form = document.querySelector(this.formSelector)
+        this.form = formElement
 
         // if form not found
         if (!this.form) {

@@ -1,10 +1,10 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/field-error.riot":
-/*!******************************!*\
-  !*** ./src/field-error.riot ***!
-  \******************************/
+/***/ "./src/fieldError.riot":
+/*!*****************************!*\
+  !*** ./src/fieldError.riot ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -176,9 +176,156 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/FormValidator.js":
+/***/ "./src/formComponent.riot":
+/*!********************************!*\
+  !*** ./src/formComponent.riot ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _formValidator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formValidator.js */ "./src/formValidator.js");
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  css: null,
+
+  exports: {
+    state:
+    {
+        result: undefined
+    },
+
+    onMounted()
+    {
+        // creating formValidation
+        const formValidation = new _formValidator_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.$('.form'), {
+            'email': {
+                'presence': true,
+                'email': true
+            },
+            'password': {
+                'presence': true
+            }
+        }, (event, data) => {
+            event.preventDefault()
+            
+            this.state.result = JSON.stringify(data)
+            this.update()
+        })
+    }
+  },
+
+  template: (
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) => template(
+    '<div><form class="form" novalidate method="post"><div class="field-group"><label class="field-label">\n                    email\n                    <input type="email" class="field-text" name="email"/></label><field-error expr2="expr2" name="email"></field-error></div><div class="field-group"><label class="field-label">\n                    password\n                    <input type="password" class="field-text" name="password"/></label><field-error expr3="expr3" name="password"></field-error></div><button class="button" type="submit">\n                Send\n            </button></form><div expr4="expr4" class="panel color-text-contrast background-color-success"></div></div>',
+    [
+      {
+        type: bindingTypes.TAG,
+        getComponent: getComponent,
+        evaluate: _scope => 'field-error',
+        slots: [],
+        attributes: [],
+        redundantAttribute: 'expr2',
+        selector: '[expr2]'
+      },
+      {
+        type: bindingTypes.TAG,
+        getComponent: getComponent,
+        evaluate: _scope => 'field-error',
+        slots: [],
+        attributes: [],
+        redundantAttribute: 'expr3',
+        selector: '[expr3]'
+      },
+      {
+        type: bindingTypes.IF,
+        evaluate: _scope => _scope.state.result,
+        redundantAttribute: 'expr4',
+        selector: '[expr4]',
+
+        template: template(
+          '<div class="panel__body"><div expr5="expr5" class="content m-bottom-last-child-0"> </div></div>',
+          [
+            {
+              redundantAttribute: 'expr5',
+              selector: '[expr5]',
+
+              expressions: [
+                {
+                  type: expressionTypes.TEXT,
+                  childNodeIndex: 0,
+
+                  evaluate: _scope => [
+                    _scope.state.result
+                  ].join(
+                    ''
+                  )
+                }
+              ]
+            }
+          ]
+        )
+      }
+    ]
+  ),
+
+  name: 'form-component'
+});
+
+/***/ }),
+
+/***/ "./src/demo.js":
+/*!*********************!*\
+  !*** ./src/demo.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var riot__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! riot */ "./node_modules/riot/riot.esm.js");
+/* harmony import */ var _formValidator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formValidator */ "./src/formValidator.js");
+/* harmony import */ var _fieldError_riot__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fieldError.riot */ "./src/fieldError.riot");
+/* harmony import */ var _formComponent_riot__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./formComponent.riot */ "./src/formComponent.riot");
+
+
+
+ // register & mount riot component
+
+riot__WEBPACK_IMPORTED_MODULE_3__.register('field-error', _fieldError_riot__WEBPACK_IMPORTED_MODULE_1__["default"]);
+riot__WEBPACK_IMPORTED_MODULE_3__.mount('field-error'); // creating formValidation
+
+var formValidation = new _formValidator__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector('.form-html'), {
+  'email': {
+    'presence': true,
+    'email': true
+  },
+  'password': {
+    'presence': true
+  }
+}, function (event, data) {
+  event.preventDefault(); // show message and content of data from form
+
+  document.querySelector('#result .content').innerHTML = '<p>' + JSON.stringify(data) + '</p>';
+  document.querySelector('#result').classList.remove('hidden');
+});
+riot__WEBPACK_IMPORTED_MODULE_3__.register('form-component', _formComponent_riot__WEBPACK_IMPORTED_MODULE_2__["default"]);
+riot__WEBPACK_IMPORTED_MODULE_3__.mount('form-component');
+
+/***/ }),
+
+/***/ "./src/formValidator.js":
 /*!******************************!*\
-  !*** ./src/FormValidator.js ***!
+  !*** ./src/formValidator.js ***!
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -214,14 +361,12 @@ var FormValidator = /*#__PURE__*/function () {
    *  @param {[type]} formSelector [description]
    *  @param {[type]} constraits   [description]
    */
-  function FormValidator(formSelector, constraits, onSuccess) {
+  function FormValidator(formElement, constraits, onSuccess) {
     var _this = this;
 
     _classCallCheck(this, FormValidator);
 
-    // getting selector to find form-element
-    this.formSelector = formSelector; // constraits for validate.js
-
+    // constraits for validate.js
     this.constraits = constraits; // adding onSuccess
 
     this._onSuccess = onSuccess; // if form not found
@@ -231,7 +376,7 @@ var FormValidator = /*#__PURE__*/function () {
     } // get form and elements
 
 
-    this.form = document.querySelector(this.formSelector); // if form not found
+    this.form = formElement; // if form not found
 
     if (!this.form) {
       console.error('FormValidator: form not found!');
@@ -341,38 +486,6 @@ var FormValidator = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormValidator);
-
-/***/ }),
-
-/***/ "./src/demo.js":
-/*!*********************!*\
-  !*** ./src/demo.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var riot__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! riot */ "./node_modules/riot/riot.esm.js");
-/* harmony import */ var _FormValidator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormValidator */ "./src/FormValidator.js");
-/* harmony import */ var _field_error_riot__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field-error.riot */ "./src/field-error.riot");
-
-
-
-riot__WEBPACK_IMPORTED_MODULE_2__.register('field-error', _field_error_riot__WEBPACK_IMPORTED_MODULE_1__["default"]);
-riot__WEBPACK_IMPORTED_MODULE_2__.mount('field-error');
-var formValidation = new _FormValidator__WEBPACK_IMPORTED_MODULE_0__["default"]('form', {
-  'email': {
-    'presence': true,
-    'email': true
-  },
-  'password': {
-    'presence': true
-  }
-}, function (event, data) {
-  event.preventDefault();
-  document.querySelector('#result .content').innerHTML = '<p>' + JSON.stringify(data) + '</p>';
-  document.querySelector('#result').classList.remove('hidden');
-});
 
 /***/ }),
 
