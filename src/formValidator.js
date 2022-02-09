@@ -6,7 +6,6 @@ import serialize from 'form-serialize'
  *
  *
  *  @author HerrHase
- *  @
  *
  */
 
@@ -17,38 +16,65 @@ class FormValidator
      *  @param {[type]} formSelector [description]
      *  @param {[type]} constraits   [description]
      */
-    constructor(formElement, constraits, onSuccess)
+    constructor(formElement, constraits, addSubmitEvent = false)
     {
         // constraits for validate.js
         this.constraits = constraits
 
-        // adding onSuccess
-        this._onSuccess = onSuccess
-
-        // if form not found
-        if (!this._onSuccess) {
-            console.error('FormValidator: onSuccess not found!')
-        }
-
         // get form and elements
-        this.form = formElement
+        this.formElement = formElement
 
         // if form not found
-        if (!this.form) {
+        if (!this.formElement) {
             console.error('FormValidator: form not found!')
         }
 
-        this.elements = this.form.querySelectorAll('field-error')
-
-        // adding submit event
-        this.form.addEventListener('submit', (event) => {
-            this._onSubmit(event)
-        })
+        this.elements = this.formElement.querySelectorAll('field-error')
 
         // adding event if a element is updated
-        this.form.addEventListener('field-update', (event) => {
+        this.formElement.addEventListener('field-update', (event) => {
             this._onFieldUpdate(event)
         })
+
+        // adding submit event
+        if (addSubmitEvent) {
+            this.formElement.addEventListener('submit', (event) => {
+                this._onSubmit(event)
+            })
+        }
+    }
+
+    /**
+     *  trigger submit
+     *
+     *  @param {object} event
+     *
+     */
+    submit(event)
+    {
+        this._onSubmit(event)
+    }
+
+    /**
+     *
+     *  @param  {function} onError
+     *
+     */
+    onError(onError)
+    {
+        this._onError = onError
+    }
+
+    /**
+     *  settin onSuccess callback and add submit-event on form
+     *
+     *  @param  {function} onSuccess
+     *
+     */
+    onSuccess(onSuccess)
+    {
+        // adding onSuccess
+        this._onSuccess = onSuccess
     }
 
     /**
@@ -70,17 +96,19 @@ class FormValidator
             fullMessages: false
         }
 
+        // check form and getting errors
         validate.async(data, this.constraits, options).then(
-
-            // handling success
             () => {
                 this._onSuccess(event, data)
             },
 
-            // handling error
             (errors) => {
-
                 event.preventDefault()
+
+                // if onError is set, tha
+                if (this._onError) {
+                    this._onError(event, errors, data)
+                }
 
                 // send each element a event
                 this.elements.forEach((element) => {
@@ -93,7 +121,6 @@ class FormValidator
 
                     this._dispatchCustomEvent(elementErrors, element)
                 })
-
             }
         )
     }

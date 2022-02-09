@@ -191,20 +191,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   css: null,
 
   exports: {
     state:
     {
-        result: undefined
+        result: undefined,
+        validator: undefined,
+        class: undefined
     },
 
     onMounted()
     {
-        // creating formValidation
-        const formValidation = new _formValidator_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.$('.form'), {
+        // creating formValidator
+        this.state.validator = new _formValidator_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.$('.form'), {
             'email': {
                 'presence': true,
                 'email': true
@@ -212,12 +213,47 @@ __webpack_require__.r(__webpack_exports__);
             'password': {
                 'presence': true
             }
-        }, (event, data) => {
-            event.preventDefault()
-            
-            this.state.result = JSON.stringify(data)
-            this.update()
         })
+
+        // adding on success
+        this.state.validator.onSuccess((event, data) => {
+            this.handleSuccess(event, data)
+        })
+
+        // adding on error
+        this.state.validator.onError((event, errors, data) => {
+            this.handleError(event, errors, data)
+        })
+    },
+
+    /**
+     *
+     *  @param  {object} event
+     *  @param  {array} data
+     *
+     */
+    handleSuccess(event, data)
+    {
+        event.preventDefault()
+
+        this.state.class = 'background-color-success'
+        this.state.result = JSON.stringify(data)
+        this.update()
+    },
+
+    /**
+     *
+     *
+     *  @param  {object} event
+     *  @param  {array} errors
+     *  @param  {array} data
+     *
+     */
+    handleError(event, errors, data)
+    {
+        this.state.class = 'background-color-danger'
+        this.state.result = JSON.stringify(errors)
+        this.update()
     }
   },
 
@@ -227,16 +263,19 @@ __webpack_require__.r(__webpack_exports__);
     bindingTypes,
     getComponent
   ) => template(
-    '<div><form class="form" novalidate method="post"><div class="field-group"><label class="field-label">\n                    email\n                    <input type="email" class="field-text" name="email"/></label><field-error expr2="expr2" name="email"></field-error></div><div class="field-group"><label class="field-label">\n                    password\n                    <input type="password" class="field-text" name="password"/></label><field-error expr3="expr3" name="password"></field-error></div><button class="button" type="submit">\n                Send\n            </button></form><div expr4="expr4" class="panel color-text-contrast background-color-success"></div></div>',
+    '<div><form expr2="expr2" class="form" novalidate method="post"><div class="field-group"><label class="field-label">\n                    email\n                    <input type="email" class="field-text" name="email"/></label><field-error expr3="expr3" name="email"></field-error></div><div class="field-group"><label class="field-label">\n                    password\n                    <input type="password" class="field-text" name="password"/></label><field-error expr4="expr4" name="password"></field-error></div><button class="button" type="submit">\n                Send\n            </button></form><div expr5="expr5"></div></div>',
     [
       {
-        type: bindingTypes.TAG,
-        getComponent: getComponent,
-        evaluate: _scope => 'field-error',
-        slots: [],
-        attributes: [],
         redundantAttribute: 'expr2',
-        selector: '[expr2]'
+        selector: '[expr2]',
+
+        expressions: [
+          {
+            type: expressionTypes.EVENT,
+            name: 'onsubmit',
+            evaluate: _scope => (event) => ( _scope.state.validator.submit(event) )
+          }
+        ]
       },
       {
         type: bindingTypes.TAG,
@@ -248,17 +287,41 @@ __webpack_require__.r(__webpack_exports__);
         selector: '[expr3]'
       },
       {
+        type: bindingTypes.TAG,
+        getComponent: getComponent,
+        evaluate: _scope => 'field-error',
+        slots: [],
+        attributes: [],
+        redundantAttribute: 'expr4',
+        selector: '[expr4]'
+      },
+      {
         type: bindingTypes.IF,
         evaluate: _scope => _scope.state.result,
-        redundantAttribute: 'expr4',
-        selector: '[expr4]',
+        redundantAttribute: 'expr5',
+        selector: '[expr5]',
 
         template: template(
-          '<div class="panel__body"><div expr5="expr5" class="content m-bottom-last-child-0"> </div></div>',
+          '<div class="panel__body"><div expr6="expr6" class="content m-bottom-last-child-0"> </div></div>',
           [
             {
-              redundantAttribute: 'expr5',
-              selector: '[expr5]',
+              expressions: [
+                {
+                  type: expressionTypes.ATTRIBUTE,
+                  name: 'class',
+
+                  evaluate: _scope => [
+                    'panel color-text-contrast ',
+                    _scope.state.class
+                  ].join(
+                    ''
+                  )
+                }
+              ]
+            },
+            {
+              redundantAttribute: 'expr6',
+              selector: '[expr6]',
 
               expressions: [
                 {
@@ -284,10 +347,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/demo.js":
-/*!*********************!*\
-  !*** ./src/demo.js ***!
-  \*********************/
+/***/ "./src/example.js":
+/*!************************!*\
+  !*** ./src/example.js ***!
+  \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -312,7 +375,8 @@ var formValidation = new _formValidator__WEBPACK_IMPORTED_MODULE_0__["default"](
   'password': {
     'presence': true
   }
-}, function (event, data) {
+}, true);
+formValidation.onSuccess(function (event, data) {
   event.preventDefault(); // show message and content of data from form
 
   document.querySelector('#result .content').innerHTML = '<p>' + JSON.stringify(data) + '</p>';
@@ -351,7 +415,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  *
  *
  *  @author HerrHase
- *  @
  *
  */
 
@@ -361,47 +424,80 @@ var FormValidator = /*#__PURE__*/function () {
    *  @param {[type]} formSelector [description]
    *  @param {[type]} constraits   [description]
    */
-  function FormValidator(formElement, constraits, onSuccess) {
+  function FormValidator(formElement, constraits) {
     var _this = this;
+
+    var addSubmitEvent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
     _classCallCheck(this, FormValidator);
 
     // constraits for validate.js
-    this.constraits = constraits; // adding onSuccess
+    this.constraits = constraits; // get form and elements
 
-    this._onSuccess = onSuccess; // if form not found
+    this.formElement = formElement; // if form not found
 
-    if (!this._onSuccess) {
-      console.error('FormValidator: onSuccess not found!');
-    } // get form and elements
-
-
-    this.form = formElement; // if form not found
-
-    if (!this.form) {
+    if (!this.formElement) {
       console.error('FormValidator: form not found!');
     }
 
-    this.elements = this.form.querySelectorAll('field-error'); // adding submit event
+    this.elements = this.formElement.querySelectorAll('field-error'); // adding event if a element is updated
 
-    this.form.addEventListener('submit', function (event) {
-      _this._onSubmit(event);
-    }); // adding event if a element is updated
-
-    this.form.addEventListener('field-update', function (event) {
+    this.formElement.addEventListener('field-update', function (event) {
       _this._onFieldUpdate(event);
-    });
+    }); // adding submit event
+
+    if (addSubmitEvent) {
+      this.formElement.addEventListener('submit', function (event) {
+        _this._onSubmit(event);
+      });
+    }
   }
   /**
-   *  handle submit
+   *  trigger submit
    *
-   *
-   *  @param  {Event} event
+   *  @param {object} event
    *
    */
 
 
   _createClass(FormValidator, [{
+    key: "submit",
+    value: function submit(event) {
+      this._onSubmit(event);
+    }
+    /**
+     *
+     *  @param  {function} onError
+     *
+     */
+
+  }, {
+    key: "onError",
+    value: function onError(_onError) {
+      this._onError = _onError;
+    }
+    /**
+     *  settin onSuccess callback and add submit-event on form
+     *
+     *  @param  {function} onSuccess
+     *
+     */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(_onSuccess) {
+      // adding onSuccess
+      this._onSuccess = _onSuccess;
+    }
+    /**
+     *  handle submit
+     *
+     *
+     *  @param  {Event} event
+     *
+     */
+
+  }, {
     key: "_onSubmit",
     value: function _onSubmit(event) {
       var _this2 = this;
@@ -413,13 +509,17 @@ var FormValidator = /*#__PURE__*/function () {
 
       var options = {
         fullMessages: false
-      };
-      validate_js__WEBPACK_IMPORTED_MODULE_0___default().async(data, this.constraits, options).then( // handling success
-      function () {
+      }; // check form and getting errors
+
+      validate_js__WEBPACK_IMPORTED_MODULE_0___default().async(data, this.constraits, options).then(function () {
         _this2._onSuccess(event, data);
-      }, // handling error
-      function (errors) {
-        event.preventDefault(); // send each element a event
+      }, function (errors) {
+        event.preventDefault(); // if onError is set, tha
+
+        if (_this2._onError) {
+          _this2._onError(event, errors, data);
+        } // send each element a event
+
 
         _this2.elements.forEach(function (element) {
           var elementErrors = false; // check for errors by name
@@ -759,10 +859,10 @@ module.exports = serialize;
 
 /***/ }),
 
-/***/ "./src/demo.scss":
-/*!***********************!*\
-  !*** ./src/demo.scss ***!
-  \***********************/
+/***/ "./src/example.scss":
+/*!**************************!*\
+  !*** ./src/example.scss ***!
+  \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4695,8 +4795,8 @@ const __ = {
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/dist/demo": 0,
-/******/ 			"dist/demo": 0
+/******/ 			"/example/example": 0,
+/******/ 			"example/example": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -4746,8 +4846,8 @@ const __ = {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["dist/demo"], () => (__webpack_require__("./src/demo.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["dist/demo"], () => (__webpack_require__("./src/demo.scss")))
+/******/ 	__webpack_require__.O(undefined, ["example/example"], () => (__webpack_require__("./src/example.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["example/example"], () => (__webpack_require__("./src/example.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

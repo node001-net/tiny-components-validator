@@ -17,7 +17,9 @@ const formValidation = new FormValidator(document.querySelector('.form-html'), {
     'password': {
         'presence': true
     }
-}, (event, data) => {
+}, true)
+
+formValidation.onSuccess((event, data) => {
     event.preventDefault()
 
     // show message and content of data from form

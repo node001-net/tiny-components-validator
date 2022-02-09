@@ -1,6 +1,6 @@
 <form-component>
     <div>
-        <form class="form" novalidate method="post">
+        <form class="form" novalidate method="post" onsubmit={ (event) => ( state.validator.submit(event) ) }>
             <div class="field-group">
                 <label class="field-label">
                     email
@@ -20,7 +20,7 @@
             </button>
         </form>
 
-        <div if={ state.result } class="panel color-text-contrast background-color-success">
+        <div if={ state.result } class="panel color-text-contrast { state.class }">
             <div class="panel__body">
                 <div class="content m-bottom-last-child-0">
                     { state.result }
@@ -32,20 +32,21 @@
     <script>
 
         import * as riot from 'riot'
-
         import FormValidator from './formValidator.js'
 
         export default {
 
             state:
             {
-                result: undefined
+                result: undefined,
+                validator: undefined,
+                class: undefined
             },
 
             onMounted()
             {
-                // creating formValidation
-                const formValidation = new FormValidator(this.$('.form'), {
+                // creating formValidator
+                this.state.validator = new FormValidator(this.$('.form'), {
                     'email': {
                         'presence': true,
                         'email': true
@@ -53,12 +54,47 @@
                     'password': {
                         'presence': true
                     }
-                }, (event, data) => {
-                    event.preventDefault()
-                    
-                    this.state.result = JSON.stringify(data)
-                    this.update()
                 })
+
+                // adding on success
+                this.state.validator.onSuccess((event, data) => {
+                    this.handleSuccess(event, data)
+                })
+
+                // adding on error
+                this.state.validator.onError((event, errors, data) => {
+                    this.handleError(event, errors, data)
+                })
+            },
+
+            /**
+             *
+             *  @param  {object} event
+             *  @param  {array} data
+             *
+             */
+            handleSuccess(event, data)
+            {
+                event.preventDefault()
+
+                this.state.class = 'background-color-success'
+                this.state.result = JSON.stringify(data)
+                this.update()
+            },
+
+            /**
+             *
+             *
+             *  @param  {object} event
+             *  @param  {array} errors
+             *  @param  {array} data
+             *
+             */
+            handleError(event, errors, data)
+            {
+                this.state.class = 'background-color-danger'
+                this.state.result = JSON.stringify(errors)
+                this.update()
             }
         }
 
