@@ -1,4 +1,4 @@
-# Tiny Validator
+# Tiny Components - Validator
 
 Created with [Riot.js](https://riot.js.org)
 
@@ -10,7 +10,7 @@ For Validation this Component uses [Validate.js](https://validatejs.org/)
 ## Install
 
 ```bash
-npm install tiny-validator --save
+npm install @tiny-components/validator --save
 ```
 
 ## How to use

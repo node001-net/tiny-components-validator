@@ -4,7 +4,7 @@
     "description": "Form Validation with Riotjs",
     "repository": {
         "type": "git",
-        "url": "git@gitea.node001.net:tiny-components/validator.git"
+        "url": "git@github.com:node001-net/tiny-components-validator.git"
     },
     "author": "Björn Hase",
     "license": "MIT",
