@@ -13,10 +13,10 @@ For Validation this Component uses [Validate.js](https://validatejs.org/)
 npm install @tiny-components/validator --save
 ```
 
-## How to use
+## You can use it like this
 
 ```javascript
-<form onsubmit={ (event) => { state.validator.handle(event) }} novalidate>
+<form class="form" onsubmit={ (event) => ( state.validator.submit(event) ) }>>
     <div class="field">
         <label>
             email
@@ -38,17 +38,51 @@ npm install @tiny-components/validator --save
     import Validator from './validator.js'
 
     export default {
+
+        state: {
+            validator: { }
+        },
+
         onBeforeMount() {
-            this.state.validator = new Validator({
-                email: {
-                    presence: true
-                    email: true
+            // creating formValidator
+            this.state.validator = new FormValidator(this.$('.form'), {
+                'email': {
+                    'presence': true,
+                    'email': true
                 },
-                password: {
-                    presence: true
+                'password': {
+                    'presence': true
                 }
-            }, this)
+            })
+
+            // adding on success
+            this.state.validator.onSuccess((event, data) => {
+                this.handleSuccess(event, data)
+            })
+
+            // adding on error
+            this.state.validator.onError((event, errors, data) => {
+                this.handleError(event, errors, data)
+            })
+        },
+
+        /**
+         *
+         */
+        handleSuccess(event, data)
+        {
+            event.preventDefault()
+            this.update()
+        },
+
+        /**
+         *
+         */
+        handleError(event, errors, data)
+        {
+            this.update()
         }
+
     }
 </script>
 ```
