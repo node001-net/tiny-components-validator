@@ -1,6 +1,6 @@
 {
     "name": "@tiny-components/validator",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Form Validation with Riotjs",
     "repository": {
         "type": "git",
@@ -9,7 +9,7 @@
     "author": "Björn Hase",
     "license": "MIT",
     "dependencies": {
-        "@tentakelfabrik/plain-ui": "^0.3.0",
+        "@tiny-components/plain-ui": "^0.5.0",
         "form-serialize": "^0.7.2",
         "riot": "^6.1.2",
         "validate.js": "^0.13.1"
@@ -19,6 +19,7 @@
         "@riotjs/webpack-loader": "^6.0.0",
         "cross-env": "^7.0.3",
         "laravel-mix": "^6.0.5",
+        "postcss": "^8.4.12",
         "sass": "^1.32.0",
         "sass-loader": "^12.4.0"
     }

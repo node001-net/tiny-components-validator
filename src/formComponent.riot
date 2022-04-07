@@ -20,6 +20,12 @@
             </button>
         </form>
 
+        <div class="loading" if={ state.isLoading }>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <div if={ state.result } class="panel color-text-contrast { state.class }">
             <div class="panel__body">
                 <div class="content m-bottom-last-child-0">

@@ -10,7 +10,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   css: null,
@@ -185,7 +185,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _formValidator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formValidator.js */ "./src/formValidator.js");
 
@@ -205,7 +205,7 @@ __webpack_require__.r(__webpack_exports__);
     onMounted()
     {
         // creating formValidator
-        this.state.validator = new _formValidator_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.$('.form'), {
+        this.state.validator = new _formValidator_js__WEBPACK_IMPORTED_MODULE_0__.default(this.$('.form'), {
             'email': {
                 'presence': true,
                 'email': true
@@ -263,7 +263,7 @@ __webpack_require__.r(__webpack_exports__);
     bindingTypes,
     getComponent
   ) => template(
-    '<div><form expr2="expr2" class="form" novalidate method="post"><div class="field-group"><label class="field-label">\n                    email\n                    <input type="email" class="field-text" name="email"/></label><field-error expr3="expr3" name="email"></field-error></div><div class="field-group"><label class="field-label">\n                    password\n                    <input type="password" class="field-text" name="password"/></label><field-error expr4="expr4" name="password"></field-error></div><button class="button" type="submit">\n                Send\n            </button></form><div expr5="expr5"></div></div>',
+    '<div><form expr2="expr2" class="form" novalidate method="post"><div class="field-group"><label class="field-label">\n                    email\n                    <input type="email" class="field-text" name="email"/></label><field-error expr3="expr3" name="email"></field-error></div><div class="field-group"><label class="field-label">\n                    password\n                    <input type="password" class="field-text" name="password"/></label><field-error expr4="expr4" name="password"></field-error></div><button class="button" type="submit">\n                Send\n            </button></form><div expr5="expr5" class="loading"></div><div expr6="expr6"></div></div>',
     [
       {
         redundantAttribute: 'expr2',
@@ -297,12 +297,23 @@ __webpack_require__.r(__webpack_exports__);
       },
       {
         type: bindingTypes.IF,
-        evaluate: _scope => _scope.state.result,
+        evaluate: _scope => _scope.state.isLoading,
         redundantAttribute: 'expr5',
         selector: '[expr5]',
 
         template: template(
-          '<div class="panel__body"><div expr6="expr6" class="content m-bottom-last-child-0"> </div></div>',
+          '<span></span><span></span><span></span>',
+          []
+        )
+      },
+      {
+        type: bindingTypes.IF,
+        evaluate: _scope => _scope.state.result,
+        redundantAttribute: 'expr6',
+        selector: '[expr6]',
+
+        template: template(
+          '<div class="panel__body"><div expr7="expr7" class="content m-bottom-last-child-0"> </div></div>',
           [
             {
               expressions: [
@@ -320,8 +331,8 @@ __webpack_require__.r(__webpack_exports__);
               ]
             },
             {
-              redundantAttribute: 'expr6',
-              selector: '[expr6]',
+              redundantAttribute: 'expr7',
+              selector: '[expr7]',
 
               expressions: [
                 {
@@ -364,10 +375,10 @@ __webpack_require__.r(__webpack_exports__);
 
  // register & mount riot component
 
-riot__WEBPACK_IMPORTED_MODULE_3__.register('field-error', _fieldError_riot__WEBPACK_IMPORTED_MODULE_1__["default"]);
+riot__WEBPACK_IMPORTED_MODULE_3__.register('field-error', _fieldError_riot__WEBPACK_IMPORTED_MODULE_1__.default);
 riot__WEBPACK_IMPORTED_MODULE_3__.mount('field-error'); // creating formValidation
 
-var formValidation = new _formValidator__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector('.form-html'), {
+var formValidation = new _formValidator__WEBPACK_IMPORTED_MODULE_0__.default(document.querySelector('.form-html'), {
   'email': {
     'presence': true,
     'email': true
@@ -382,7 +393,7 @@ formValidation.onSuccess(function (event, data) {
   document.querySelector('#result .content').innerHTML = '<p>' + JSON.stringify(data) + '</p>';
   document.querySelector('#result').classList.remove('hidden');
 });
-riot__WEBPACK_IMPORTED_MODULE_3__.register('form-component', _formComponent_riot__WEBPACK_IMPORTED_MODULE_2__["default"]);
+riot__WEBPACK_IMPORTED_MODULE_3__.register('form-component', _formComponent_riot__WEBPACK_IMPORTED_MODULE_2__.default);
 riot__WEBPACK_IMPORTED_MODULE_3__.mount('form-component');
 
 /***/ }),
@@ -396,7 +407,7 @@ riot__WEBPACK_IMPORTED_MODULE_3__.mount('form-component');
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! validate.js */ "./node_modules/validate.js/validate.js");
 /* harmony import */ var validate_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(validate_js__WEBPACK_IMPORTED_MODULE_0__);
@@ -406,7 +417,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
 
@@ -490,6 +501,17 @@ var FormValidator = /*#__PURE__*/function () {
       this._onSuccess = _onSuccess;
     }
     /**
+     *
+     *  @param  {function} onError
+     *
+     */
+
+  }, {
+    key: "onBeforeSubmit",
+    value: function onBeforeSubmit(_onBeforeSubmit) {
+      this._onBeforeSubmit = _onBeforeSubmit;
+    }
+    /**
      *  handle submit
      *
      *
@@ -509,7 +531,12 @@ var FormValidator = /*#__PURE__*/function () {
 
       var options = {
         fullMessages: false
-      }; // check form and getting errors
+      };
+
+      if (this._onBeforeSubmit) {
+        this._onBeforeSubmit();
+      } // check form and getting errors
+
 
       validate_js__WEBPACK_IMPORTED_MODULE_0___default().async(data, this.constraits, options).then(function () {
         _this2._onSuccess(event, data);
@@ -881,17 +908,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "__": () => (/* binding */ __),
-/* harmony export */   "component": () => (/* binding */ component),
-/* harmony export */   "install": () => (/* binding */ install),
-/* harmony export */   "mount": () => (/* binding */ mount),
-/* harmony export */   "pure": () => (/* binding */ pure),
-/* harmony export */   "register": () => (/* binding */ register),
-/* harmony export */   "uninstall": () => (/* binding */ uninstall),
-/* harmony export */   "unmount": () => (/* binding */ unmount),
-/* harmony export */   "unregister": () => (/* binding */ unregister),
-/* harmony export */   "version": () => (/* binding */ version),
-/* harmony export */   "withTypes": () => (/* binding */ withTypes)
+/* harmony export */   "__": () => /* binding */ __,
+/* harmony export */   "component": () => /* binding */ component,
+/* harmony export */   "install": () => /* binding */ install,
+/* harmony export */   "mount": () => /* binding */ mount,
+/* harmony export */   "pure": () => /* binding */ pure,
+/* harmony export */   "register": () => /* binding */ register,
+/* harmony export */   "uninstall": () => /* binding */ uninstall,
+/* harmony export */   "unmount": () => /* binding */ unmount,
+/* harmony export */   "unregister": () => /* binding */ unregister,
+/* harmony export */   "version": () => /* binding */ version,
+/* harmony export */   "withTypes": () => /* binding */ withTypes
 /* harmony export */ });
 /* Riot v6.1.2, @license MIT */
 /**
@@ -4674,9 +4701,8 @@ const __ = {
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -4698,6 +4724,9 @@ const __ = {
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
+/******/ 	// the startup function
+/******/ 	// It's empty as some runtime module handles the default behavior
+/******/ 	__webpack_require__.x = x => {}
 /************************************************************************/
 /******/ 	/* webpack/runtime/amd define */
 /******/ 	(() => {
@@ -4706,45 +4735,13 @@ const __ = {
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/chunk loaded */
-/******/ 	(() => {
-/******/ 		var deferred = [];
-/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
-/******/ 			if(chunkIds) {
-/******/ 				priority = priority || 0;
-/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-/******/ 				deferred[i] = [chunkIds, fn, priority];
-/******/ 				return;
-/******/ 			}
-/******/ 			var notFulfilled = Infinity;
-/******/ 			for (var i = 0; i < deferred.length; i++) {
-/******/ 				var [chunkIds, fn, priority] = deferred[i];
-/******/ 				var fulfilled = true;
-/******/ 				for (var j = 0; j < chunkIds.length; j++) {
-/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
-/******/ 						chunkIds.splice(j--, 1);
-/******/ 					} else {
-/******/ 						fulfilled = false;
-/******/ 						if(priority < notFulfilled) notFulfilled = priority;
-/******/ 					}
-/******/ 				}
-/******/ 				if(fulfilled) {
-/******/ 					deferred.splice(i--, 1)
-/******/ 					var r = fn();
-/******/ 					if (r !== undefined) result = r;
-/******/ 				}
-/******/ 			}
-/******/ 			return result;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
 /******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
+/******/ 				() => module['default'] :
+/******/ 				() => module;
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
@@ -4764,7 +4761,7 @@ const __ = {
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
@@ -4793,12 +4790,15 @@ const __ = {
 /******/ 		
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		// Promise = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/example/example": 0,
-/******/ 			"example/example": 0
+/******/ 			"/example/example": 0
 /******/ 		};
 /******/ 		
+/******/ 		var deferredModules = [
+/******/ 			["./src/example.js"],
+/******/ 			["./src/example.scss"]
+/******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		
 /******/ 		// no prefetching
@@ -4809,46 +4809,73 @@ const __ = {
 /******/ 		
 /******/ 		// no HMR manifest
 /******/ 		
-/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		var checkDeferredModules = x => {};
 /******/ 		
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			var [chunkIds, moreModules, runtime, executeModules] = data;
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
-/******/ 				for(moduleId in moreModules) {
-/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 					}
-/******/ 				}
-/******/ 				if(runtime) var result = runtime(__webpack_require__);
-/******/ 			}
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			var moduleId, chunkId, i = 0, resolves = [];
 /******/ 			for(;i < chunkIds.length; i++) {
 /******/ 				chunkId = chunkIds[i];
 /******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					installedChunks[chunkId][0]();
+/******/ 					resolves.push(installedChunks[chunkId][0]);
 /******/ 				}
 /******/ 				installedChunks[chunkId] = 0;
 /******/ 			}
-/******/ 			return __webpack_require__.O(result);
+/******/ 			for(moduleId in moreModules) {
+/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 				}
+/******/ 			}
+/******/ 			if(runtime) runtime(__webpack_require__);
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			while(resolves.length) {
+/******/ 				resolves.shift()();
+/******/ 			}
+/******/ 		
+/******/ 			// add entry modules from loaded chunk to deferred list
+/******/ 			if(executeModules) deferredModules.push.apply(deferredModules, executeModules);
+/******/ 		
+/******/ 			// run deferred modules when all chunks ready
+/******/ 			return checkDeferredModules();
 /******/ 		}
 /******/ 		
 /******/ 		var chunkLoadingGlobal = self["webpackChunk_tiny_components_validator"] = self["webpackChunk_tiny_components_validator"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 		
+/******/ 		function checkDeferredModulesImpl() {
+/******/ 			var result;
+/******/ 			for(var i = 0; i < deferredModules.length; i++) {
+/******/ 				var deferredModule = deferredModules[i];
+/******/ 				var fulfilled = true;
+/******/ 				for(var j = 1; j < deferredModule.length; j++) {
+/******/ 					var depId = deferredModule[j];
+/******/ 					if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferredModules.splice(i--, 1);
+/******/ 					result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 				}
+/******/ 			}
+/******/ 			if(deferredModules.length === 0) {
+/******/ 				__webpack_require__.x();
+/******/ 				__webpack_require__.x = x => {};
+/******/ 			}
+/******/ 			return result;
+/******/ 		}
+/******/ 		var startup = __webpack_require__.x;
+/******/ 		__webpack_require__.x = () => {
+/******/ 			// reset startup function so it can be called again when more startup code is added
+/******/ 			__webpack_require__.x = startup || (x => {});
+/******/ 			return (checkDeferredModules = checkDeferredModulesImpl)();
+/******/ 		};
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["example/example"], () => (__webpack_require__("./src/example.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["example/example"], () => (__webpack_require__("./src/example.scss")))
-/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/ 	
+/******/ 	// run startup
+/******/ 	return __webpack_require__.x();
 /******/ })()
 ;

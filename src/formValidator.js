@@ -78,6 +78,16 @@ class FormValidator
     }
 
     /**
+     *
+     *  @param  {function} onError
+     *
+     */
+    onBeforeSubmit(onBeforeSubmit)
+    {
+        this._onBeforeSubmit = onBeforeSubmit
+    }
+
+    /**
      *  handle submit
      *
      *
@@ -94,6 +104,10 @@ class FormValidator
         // options for validate.js
         const options = {
             fullMessages: false
+        }
+
+        if (this._onBeforeSubmit) {
+            this._onBeforeSubmit()
         }
 
         // check form and getting errors
